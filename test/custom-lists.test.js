@@ -225,7 +225,8 @@ test('targeted HTML writes return notifications and breadcrumbs without renderin
 		const removed = await action.html(current)
 		assert.equal(removed.status, 200)
 		assert.equal(removed.data.empty, 'hidden')
-		assert.equal(removed.data.defaultLink.label, 'Films*')
+		assert.equal(removed.data.defaultLink.label, 'Films')
+		assert.equal(removed.data.defaultLink.modified, 'true')
 		assert.equal(removed.data.defaultLink.active, 'true')
 		assert.deepEqual(current.request.session.current, state)
 		delete current.request.session.user

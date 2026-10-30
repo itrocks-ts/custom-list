@@ -20,7 +20,7 @@ function breadcrumbData(request: Request, lists: CustomLists, view = 'list')
 			? `${request.route}/custom-list?mode=choose`
 			: `${request.route}/list?${new URLSearchParams({ custom: key })}`,
 		key,
-		label:    escapeText(name + (modified ? '*' : '')),
+		label:    escapeText(name),
 		modified: String(modified),
 		route:    request.route,
 		target:   (view === 'list') ? '#modal' : 'main',

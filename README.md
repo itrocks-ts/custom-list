@@ -28,7 +28,8 @@ A save contains the exact entered name, visible columns in order, applied filter
 and ordered sort criteria. Rows, row selection, unapplied filter input and scroll position are excluded.
 Loading a save or the default list returns to the beginning of the list.
 Only the currently loaded list name is bold; its parent breadcrumb remains in normal weight.
-The first settings change removes bold and appends `*`;
+The first settings change removes bold and displays `*` through CSS `::after`,
+preserving the name in the DOM;
 restoring the same settings does not clear the marker. Only loading or saving clears it.
 
 The save form offers three visibility choices:

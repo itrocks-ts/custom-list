@@ -110,7 +110,6 @@ export function markListModified(route: string): void
 	const active = document.querySelector<HTMLAnchorElement>('ol.breadcrumb a[data-active=true]')
 	if (!active || (active.dataset.modified === 'true')) return
 	active.dataset.modified = 'true'
-	active.textContent     += '*'
 }
 
 async function open(anchor: HTMLAnchorElement, editing: boolean): Promise<void>
