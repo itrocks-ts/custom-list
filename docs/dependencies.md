@@ -65,14 +65,16 @@ The request is an [`action-request.Request`](https://github.com/itrocks-ts/actio
 Supply the active list's persistence queue to prevent an already pending column save from replacing a freshly
 loaded state.
 
-The form includes names and restrictions for local validation without requests. The server renders the chooser, initial form values and breadcrumbs
-through their HTML templates; `mode=breadcrumb` returns the shared composite breadcrumb fragment.
+The form includes names and restrictions for local validation without requests.
+The server renders the chooser, initial form values and breadcrumbs through their HTML templates; `mode=breadcrumb` returns the shared composite breadcrumb fragment.
 The Save submit input sends the form through `xtarget` to `#notifications:prepend`.
 The Delete action is a link targeting `#modal`; it opens the standard confirmation before its POST performs deletion.
 `changed.html` updates that notification target, clears the modal and updates the two breadcrumb slots.
 Choosing a configuration follows a link to the business list, targeting `main` with its filename key in `custom`.
-All cancellation links declare `target="#modal:replace"`; Escape calls the same targeted action.
-The modal templates reuse the action-bar and ux-core styles declared by this package.
+Save-form cancellation links declare `target="#modal:replace"`; Escape calls the same targeted action.
+The save-form template reuses the action-bar and ux-core styles declared by this package.
+The chooser is a manual popover beneath its breadcrumb, appended to `body` through `xtarget`.
+Escape, Tab, outside pointer presses, page scrolling and resizing dismiss it.
 
 ## Loading and framework context
 
@@ -81,7 +83,8 @@ On the first list or record heading, the bridge imports `@itrocks/custom-list/cu
 This breadcrumb module activates its event listeners on first use and does not import the modal module.
 `updateListBreadcrumb(heading, true)` activates a breadcrumb already supplied in the list response without fetching it.
 `markListModified(route)` marks the active list locally, retaining its selected name.
-The chooser and save templates declare `build.js` in their HTML headers; `xtarget` loads it when the modal is opened.
+The chooser template declares `choose.js`; the save-form template declares `build.js` in its HTML header.
+`xtarget` loads each module on first use. Choosing lists does not load modal behaviour.
 `build()` handles both content already inserted and subsequent insertions, without registering duplicate forms.
 
 Shared request and interaction state lives in `context.js`, with no framework imports or implicit host binding.

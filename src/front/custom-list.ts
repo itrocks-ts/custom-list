@@ -46,6 +46,9 @@ function listen(): void
 		const anchor = trigger(event)
 		if (anchor && currentList(anchor.dataset.customListRoute!)) {
 			event.preventDefault()
+			event.stopImmediatePropagation()
+			clearTimeout(clickTimer)
+			if (!held) void open(anchor, false)
 		}
 	}, true)
 
@@ -116,13 +119,14 @@ async function open(anchor: HTMLAnchorElement, editing: boolean): Promise<void>
 {
 	const route = anchor.dataset.customListRoute!
 	if (!currentList(route) || (editing && anchor.dataset.writable !== 'true')) return
+	document.querySelector<HTMLElement>('.choose-list')?.remove()
 	context.opener = anchor
 	await settled(route)
 	if (!currentList(route)) return
 	const href = editing
 		? anchor.href.replace('mode=choose', 'mode=edit')
 		: anchor.href
-	await xTargetCall(href, anchor.target, { ...defaultOptions, targetHistoryDisable: true })
+	await xTargetCall(href, editing ? '#modal' : anchor.target, { ...defaultOptions, targetHistoryDisable: true })
 }
 
 function trigger(event: Event): HTMLAnchorElement | null

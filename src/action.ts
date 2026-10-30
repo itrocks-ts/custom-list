@@ -23,7 +23,7 @@ function breadcrumbData(request: Request, lists: CustomLists, view = 'list')
 		label:    escapeText(name),
 		modified: String(modified),
 		route:    request.route,
-		target:   (view === 'list') ? '#modal' : 'main',
+		target:   (view === 'list') ? 'body:append' : 'main',
 		writable: String(!!context.user)
 	})
 	return {

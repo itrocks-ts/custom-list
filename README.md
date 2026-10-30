@@ -18,11 +18,13 @@ npm i @itrocks/custom-list
 
 ## List interaction
 
-A click on either list breadcrumb opens the saved-list chooser. The default list appears first in bold;
-accessible saves follow alphabetically. Arrow keys move the choice; Enter or Space loads it.
+A click or right-click on either list breadcrumb opens the saved-list chooser directly beneath that breadcrumb.
+The default list appears first in bold; accessible saves follow alphabetically.
+Arrow keys move the choice; Enter or Space loads it.
 Double-click or a 500 ms long press opens the save form for signed-in users. Single clicks wait 300 ms.
 Enter or Space opens the chooser from the breadcrumb; F2 or Shift+Enter opens the save form.
-Escape closes either modal and Tab stays inside it.
+Escape closes the chooser or save form. Clicking outside, scrolling the page or resizing closes the chooser.
+Tab leaves the chooser; the save form keeps Tab inside its modal.
 
 A save contains the exact entered name, visible columns in order, applied filters including hidden-column filters,
 and ordered sort criteria. Rows, row selection, unapplied filter input and scroll position are excluded.
@@ -99,10 +101,11 @@ A successful write returns one composite fragment: modal closure, a notification
 It does not reload business rows. Errors prepend an error notification and leave the form open for retry.
 Each chooser entry is a link targeting `main`, with the saved filename key in the `custom` query parameter.
 The chooser uses monochrome list, user and globe icons for default, private and public configurations.
-Selected options use the same pale green background as `property-select`; hovering uses its light grey background.
+The chooser matches the search button menu with a white background, border, shadow and light grey hover.
+Selected options use the same pale green background as `property-select`.
 Links declare `data-target-history="false"`, so these actions preserve the address bar and browser history.
 List-save URLs omit the optional `/html` suffix.
-Cancellation links use `href="about:blank" target="#modal:replace"`.
+Save-form cancellation links use `href="about:blank" target="#modal:replace"`.
 
 Its JSON method accepts `operation=status|entries|check` for reads and POST
 `operation=load|save|delete` for session loading or writes. Requests carry `key` when loading,
@@ -136,21 +139,24 @@ import { updateListBreadcrumb } from '@itrocks/custom-list/custom-list.js'
 await updateListBreadcrumb(document.querySelector('main > article > header > h2')!)
 ```
 
-The modal templates declare `custom-list.css` in their headers; `xtarget` loads it on first use and avoids duplicates.
+The chooser and save-form templates declare `custom-list.css` in their headers;
+`xtarget` loads it on first use and avoids duplicates.
 The ordinary breadcrumb styles are provided by the existing ux-core application stylesheet.
-The modal-only `build.js`, declared by the modal templates, registers dynamic forms through [`build`](https://github.com/itrocks-ts/build) and uses
-[`modal`](https://github.com/itrocks-ts/modal) and [`xtarget`](https://github.com/itrocks-ts/xtarget).
+The chooser template loads `choose.js`, which displays a non-modal popover and handles list selection.
+The save-form template loads `build.js`, which registers dynamic forms through
+[`build`](https://github.com/itrocks-ts/build) and uses [`modal`](https://github.com/itrocks-ts/modal)
+and [`xtarget`](https://github.com/itrocks-ts/xtarget).
 The host must install `xtarget` activation and its composite, target-modifier and default-target plugins.
 Links declare their real `href` and `target`, and forms declare `action`, `method`
 and `target`. JavaScript only delays gestures and waits for pending column writes before targeted navigation or form
 submission.
-`custom-list.js` provides the breadcrumb API without loading modal behaviour or importing the framework.
+`custom-list.js` provides the breadcrumb API without loading chooser or modal behaviour or importing the framework.
 Call `updateListBreadcrumb(heading, true)` when the host has applied `CustomList.breadcrumbView(request)`
 from the same list response. Otherwise, call `updateListBreadcrumb(heading)` after the ordinary breadcrumb update.
 `markListModified(route)` updates the active name and dirty marker locally after a column change.
 It activates breadcrumb gestures once on first use. In it.rocks, a small framework-owned adapter imports this module
 on the first list or record context and supplies the pending-write dependency.
-Neither `build.js` nor `modal.js` is loaded before a modal template requests it.
+The chooser does not load `build.js` or `modal.js`; they load when the save-form template requests them.
 It prepares the default breadcrumb target, then applies the shared server-rendered composite template.
 Browser code handles gestures and state changes without constructing view markup.
 An optional browser dependency waits for pending list persistence before saving or loading.

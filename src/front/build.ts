@@ -8,59 +8,6 @@ import { settled }        from './context.js'
 
 const activated = new WeakSet<HTMLElement>()
 
-function choose(dialog: HTMLElement, route: string): void
-{
-	const container = dialog.querySelector<HTMLElement>('.saved-lists')!
-	for (const link of container.querySelectorAll<HTMLAnchorElement>('a')) {
-		link.addEventListener('focus', () => {
-			for (const option of container.querySelectorAll<HTMLAnchorElement>('a')) {
-				option.setAttribute('aria-selected', String(option === link))
-				option.tabIndex = (option === link) ? 0 : -1
-			}
-		})
-
-		let loading = false
-		link.addEventListener('click', async event => {
-			event.preventDefault()
-			event.stopImmediatePropagation()
-			if (loading) return
-			loading = true
-			try {
-				await settled(route)
-				if (!dialog.isConnected) return
-				context.loadingRoute = route
-				await xTargetCall(link.href, link.target, { ...defaultOptions, targetHistoryDisable: true })
-				dismiss(dialog)
-			}
-			catch (error) {
-				showError(dialog, error)
-			}
-			finally {
-				loading = false
-			}
-		})
-	}
-	container.addEventListener('keydown', event => {
-		const links = [...container.querySelectorAll<HTMLAnchorElement>('a')]
-		const index = links.indexOf(document.activeElement as HTMLAnchorElement)
-		if ((event.key === ' ') && (index >= 0)) {
-			event.preventDefault()
-			links[index].click()
-			return
-		}
-		const next
-			= (event.key === 'ArrowDown') ? ((index + 1) % links.length)
-			: (event.key === 'ArrowUp')   ? ((index - 1 + links.length) % links.length)
-			: (event.key === 'Home')      ? 0
-			: (event.key === 'End')       ? (links.length - 1)
-			: -1
-		if (next < 0) return
-		event.preventDefault()
-		links[next].focus()
-	})
-	container.querySelector<HTMLAnchorElement>('[aria-selected=true]')?.focus()
-}
-
 function dismiss(dialog: HTMLElement): void
 {
 	const cancel = dialog.querySelector<HTMLAnchorElement>('a[href="about:blank"]')!
@@ -191,12 +138,8 @@ build<HTMLElement>('#modal .custom-list', async dialog => {
 		}
 	})
 	try {
-		const route = dialog.dataset.route!
 		if (form) {
 			edit(form)
-		}
-		else {
-			choose(dialog, route)
 		}
 	}
 	catch (error) {

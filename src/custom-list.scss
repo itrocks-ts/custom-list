@@ -106,23 +106,54 @@
 			}
 		}
 	}
+}
+
+.choose-list {
+	background: white;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-shadow: 0 3px 12px #0003;
+	box-sizing: border-box;
+	color: #333;
+	height: auto;
+	inset: auto;
+	margin: 0;
+	max-width: calc(100vw - 32px);
+	min-width: min(16rem, calc(100vw - 32px));
+	overflow-x: hidden;
+	overflow-y: auto;
+	padding: 4px;
+	position: fixed;
+	width: max-content;
+
+	[hidden] {
+		display: none;
+	}
+
+	.error {
+		color: #b00020;
+	}
 
 	.saved-lists {
 		display: flex;
 		flex-direction: column;
-		gap: .25rem;
 
 		a {
 			align-items: center;
+			border-radius: 2px;
+			box-sizing: border-box;
+			color: inherit;
 			display: flex;
-			gap: .75rem;
+			gap: 10px;
+			min-height: 44px;
 			outline: none;
-			padding: .5rem;
+			overflow-wrap: anywhere;
+			padding: 8px 12px;
 			text-align: left;
 			white-space: normal;
 
 			&:hover {
-				background: #f4f4f4;
+				background: #eee;
 			}
 
 			&[aria-selected=true],
@@ -140,8 +171,8 @@
 		.list-icon {
 			background: currentColor;
 			color: #888;
-			flex: 0 0 1.25rem;
-			height: 1.25rem;
+			flex: 0 0 24px;
+			height: 24px;
 			mask: center / contain no-repeat;
 
 			&.default {
