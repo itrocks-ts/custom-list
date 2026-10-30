@@ -72,5 +72,5 @@
 		"build:front": "tsc -p tsconfig.names.json && tsc -p src/front/tsconfig.json",
 		"build:css": "sass --no-source-map src/custom-list.scss:custom-list.css && node -e \"const fs=require('node:fs');for(const f of fs.readdirSync('src'))if(f.endsWith('.svg'))fs.copyFileSync('src/'+f,f)\""
 	},
-	"version": "0.1.0"
+	"version": "0.1.1"
 }

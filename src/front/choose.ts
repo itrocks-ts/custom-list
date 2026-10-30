@@ -25,37 +25,61 @@ function choose(dialog: HTMLElement, route: string): void
 	}
 	const close = () => {
 		dismiss()
-		if (opener.isConnected) opener.focus()
+		if (opener.isConnected) {
+			opener.focus()
+		}
 	}
 	const observer = new MutationObserver(() => {
-		if (!dialog.isConnected || !opener.isConnected) dismiss()
+		if (!dialog.isConnected || !opener.isConnected) {
+			dismiss()
+		}
 	})
 	observer.observe(document.body, { childList: true, subtree: true })
 	const rect = opener.getBoundingClientRect()
 	const top  = Math.max(16, rect.bottom)
 	dialog.style.maxHeight = `${Math.max(0, innerHeight - top - 16)}px`
-	dialog.style.top = `${top}px`
+	dialog.style.top       = `${top}px`
 	dialog.showPopover()
 	dialog.style.left = `${Math.max(16, Math.min(rect.left, innerWidth - dialog.offsetWidth - 16))}px`
 	opener.setAttribute('aria-expanded', 'true')
-	document.addEventListener('pointerdown', event => {
-		if ((event.target instanceof Node) && !dialog.contains(event.target) && !opener.contains(event.target)) dismiss()
-	}, { signal })
-	document.addEventListener('scroll', event => {
-		if ((event.target instanceof Node) && !dialog.contains(event.target)) close()
-	}, { capture: true, signal })
-	window.addEventListener('resize', close, { signal })
-	document.addEventListener('keydown', event => {
+
+	dialog.addEventListener('keydown', event =>
+	{
+		if (event.key === 'Tab') {
+			close()
+		}
+	})
+
+	dialog.addEventListener('toggle', () =>
+	{
+		if (!dialog.matches(':popover-open')) {
+			dismiss()
+		}
+	})
+
+	document.addEventListener('keydown', event =>
+	{
 		if (event.key !== 'Escape') return
 		event.preventDefault()
 		close()
 	}, { signal })
-	dialog.addEventListener('keydown', event => {
-		if (event.key === 'Tab') close()
-	})
-	dialog.addEventListener('toggle', () => {
-		if (!dialog.matches(':popover-open')) dismiss()
-	})
+
+	document.addEventListener('pointerdown', event =>
+	{
+		if ((event.target instanceof Node) && !dialog.contains(event.target) && !opener.contains(event.target)) {
+			dismiss()
+		}
+	}, { signal })
+
+	document.addEventListener('scroll', event =>
+	{
+		if ((event.target instanceof Node) && !dialog.contains(event.target)) {
+			close()
+		}
+	}, { capture: true, signal })
+
+	window.addEventListener('resize', close, { signal })
+
 	const container = dialog.querySelector<HTMLElement>('.saved-lists')!
 	for (const link of container.querySelectorAll<HTMLAnchorElement>('a')) {
 		link.addEventListener('focus', () => {
@@ -79,8 +103,8 @@ function choose(dialog: HTMLElement, route: string): void
 				close()
 			}
 			catch (error) {
-				const output = dialog.querySelector<HTMLElement>('.error')!
-				output.hidden = false
+				const output       = dialog.querySelector<HTMLElement>('.error')!
+				output.hidden      = false
 				output.textContent = (error instanceof Error) ? error.message : String(error)
 			}
 			finally {

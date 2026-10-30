@@ -38,7 +38,7 @@ function listen(): void
 		event.stopImmediatePropagation()
 		clearTimeout(clickTimer)
 		if ((Date.now() < suppressClick) || (event.detail > 1)) return
-		clickTimer = setTimeout(() => void open(anchor, false), 300)
+		clickTimer = setTimeout(() => open(anchor, false), 300)
 	}, true)
 
 	document.addEventListener('contextmenu', event =>
@@ -48,7 +48,9 @@ function listen(): void
 			event.preventDefault()
 			event.stopImmediatePropagation()
 			clearTimeout(clickTimer)
-			if (!held) void open(anchor, false)
+			if (!held) {
+				open(anchor, false)
+			}
 		}
 	}, true)
 
@@ -59,7 +61,7 @@ function listen(): void
 		event.preventDefault()
 		event.stopImmediatePropagation()
 		clearTimeout(clickTimer)
-		void open(anchor, true)
+		open(anchor, true)
 	}, true)
 
 	document.addEventListener('keydown', event =>
@@ -69,7 +71,7 @@ function listen(): void
 		if (!['Enter', ' ', 'F2'].includes(event.key)) return
 		event.preventDefault()
 		event.stopImmediatePropagation()
-		void open(anchor, (event.key === 'F2') || event.shiftKey)
+		open(anchor, (event.key === 'F2') || event.shiftKey)
 	}, true)
 
 	document.addEventListener('pointercancel', cancelHold, true)
@@ -85,7 +87,7 @@ function listen(): void
 			held = true
 			clearTimeout(clickTimer)
 			suppressClick = Date.now() + 1000
-			void open(anchor, true)
+			open(anchor, true)
 		}, 500)
 	}, true)
 

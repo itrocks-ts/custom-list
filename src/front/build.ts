@@ -11,7 +11,7 @@ const activated = new WeakSet<HTMLElement>()
 function dismiss(dialog: HTMLElement): void
 {
 	const cancel = dialog.querySelector<HTMLAnchorElement>('a[href="about:blank"]')!
-	void xTargetCall(cancel.href, cancel.target)
+	xTargetCall(cancel.href, cancel.target)
 	if (context.opener?.isConnected) context.opener.focus()
 }
 
