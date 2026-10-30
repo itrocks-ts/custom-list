@@ -1,0 +1,164 @@
+#modal > .custom-list {
+	box-sizing: border-box;
+	left: 50%;
+	max-height: calc(100dvh - 2rem);
+	max-width: calc(100vw - 2rem);
+	overflow: auto;
+	padding: 1.25rem;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	width: 32rem;
+
+	[hidden] {
+		display: none;
+	}
+
+	> h2,
+	> form > h2 {
+		margin: 0 0 1rem;
+	}
+
+	> form > input[name=name] {
+		box-sizing: border-box;
+		display: block;
+		margin: .5rem 0 1rem;
+		width: 100%;
+	}
+
+	fieldset > label, .validation > .overwrite {
+		align-items: center;
+		display: flex;
+		gap: .5rem;
+
+		> input {
+			flex-shrink: 0;
+			margin: 0;
+		}
+	}
+
+	fieldset {
+		border: 1px solid #ccc;
+
+		> label {
+			margin: .5rem 0;
+		}
+
+		> legend {
+			padding: 0 .5em;
+			transform: translateY(-1px);
+		}
+	}
+
+	.error {
+		color: #b00020;
+	}
+
+	.error::before,
+	.validation-size::before {
+		content: '✕ ';
+		font-weight: bold;
+	}
+
+	.validation {
+		align-items: center;
+		display: grid;
+		margin-top: 1rem;
+
+		// Stack all possible messages so wrapping reserves the largest required space.
+		> * {
+			grid-area: 1 / 1;
+			margin: 0;
+		}
+
+		> .overwrite[hidden],
+		> .validation-size {
+			visibility: hidden;
+		}
+	}
+
+	footer {
+		margin-top: 1rem;
+		text-align: center;
+
+		> ul.actions {
+			align-items: center;
+			display: grid;
+			gap: .5rem;
+			grid-template-columns: 1fr 1fr 1fr;
+			padding: .5rem 0 0;
+
+			> .close {
+				grid-column: 2;
+				grid-row: 1;
+				justify-self: center;
+			}
+
+			> .delete {
+				grid-column: 1;
+				grid-row: 1;
+				justify-self: start;
+			}
+
+			> .save {
+				grid-column: 3;
+				grid-row: 1;
+				justify-self: end;
+			}
+		}
+	}
+
+	.saved-lists {
+		display: flex;
+		flex-direction: column;
+		gap: .25rem;
+
+		a {
+			align-items: center;
+			display: flex;
+			gap: .75rem;
+			outline: none;
+			padding: .5rem;
+			text-align: left;
+			white-space: normal;
+
+			&:hover {
+				background: #f4f4f4;
+			}
+
+			&[aria-selected=true],
+			&:focus-visible {
+				background: color-mix(in srgb, #2f8943 10%, white);
+			}
+
+			&:hover .list-icon,
+			&[aria-selected=true] .list-icon,
+			&:focus-visible .list-icon {
+				color: #2f8943;
+			}
+		}
+
+		.list-icon {
+			background: currentColor;
+			color: #888;
+			flex: 0 0 1.25rem;
+			height: 1.25rem;
+			mask: center / contain no-repeat;
+
+			&.default {
+				mask-image: url('default.svg');
+			}
+
+			&.private {
+				mask-image: url('private.svg');
+			}
+
+			&.public {
+				mask-image: url('public.svg');
+			}
+		}
+
+		.default {
+			font-weight: bold;
+		}
+	}
+}

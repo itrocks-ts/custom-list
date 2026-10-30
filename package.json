@@ -1,0 +1,75 @@
+{
+	"author": {
+		"name": "Baptiste Pillot",
+		"email": "baptiste@pillot.fr"
+	},
+	"dependencies": {
+		"@itrocks/action": "latest",
+		"@itrocks/action-bar": "latest",
+		"@itrocks/action-request": "latest",
+		"@itrocks/build": "latest",
+		"@itrocks/confirm": "latest",
+		"@itrocks/data-path": "latest",
+		"@itrocks/delete": "latest",
+		"@itrocks/modal": "latest",
+		"@itrocks/route": "latest",
+		"@itrocks/save": "latest",
+		"@itrocks/translate": "latest",
+		"@itrocks/ux-core": "latest",
+		"@itrocks/xtarget": "latest"
+	},
+	"description": "Named custom list configurations with private and public visibility",
+	"devDependencies": {
+		"@types/node": "^24.10",
+		"typescript": "^7.0",
+		"sass": "^1.95"
+	},
+	"engines": {
+		"node": ">=24"
+	},
+	"exports": {
+		".": "./cjs/custom-list.js",
+		"./build.js": "./build.js",
+		"./custom-list.js": "./custom-list.js",
+		"./names.js": "./names.js"
+	},
+	"files": [
+		"cjs",
+		"!cjs/*.map",
+		"LICENSE",
+		"README.md",
+		"docs",
+		"config.yaml",
+		"*.css",
+		"*.d.ts",
+		"*.js",
+		"*.csv",
+		"*.svg"
+	],
+	"homepage": "https://it.rocks",
+	"keywords": [
+		"backend",
+		"configuration",
+		"front-end",
+		"it.rocks",
+		"list",
+		"modal",
+		"session",
+		"storage",
+		"visibility"
+	],
+	"license": "ISC",
+	"name": "@itrocks/custom-list",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/itrocks-ts/custom-list.git"
+	},
+	"scripts": {
+		"build": "npm run build:back && npm run build:front && npm run build:css",
+		"test": "npm run build && node --test --test-isolation=none test/*.test.js",
+		"build:back": "tsc && node -e \"const fs=require('node:fs');for(const f of fs.readdirSync('src'))if(f.endsWith('.html'))fs.copyFileSync('src/'+f,'cjs/'+f)\"",
+		"build:front": "tsc -p tsconfig.names.json && tsc -p src/front/tsconfig.json",
+		"build:css": "sass --no-source-map src/custom-list.scss:custom-list.css && node -e \"const fs=require('node:fs');for(const f of fs.readdirSync('src'))if(f.endsWith('.svg'))fs.copyFileSync('src/'+f,f)\""
+	},
+	"version": "0.0.2"
+}

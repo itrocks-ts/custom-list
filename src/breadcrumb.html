@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Saved lists</title>
+</head>
+<body>
+<template>
+<!--BEGIN-->
+
+	<!--#list-custom-breadcrumb:replace--><!--#end-->
+	<!--#list-default-breadcrumb-->
+	<!--defaultLink-->
+	{./link.html}
+	<!--end-->
+	<!--#end-->
+	<!--#list-default-breadcrumb:after-->
+	<li id="list-custom-breadcrumb" data-action="custom-list" hidden="{?empty}">
+		<!--customLink-->
+		{./link.html}
+		<!--end-->
+	</li>
+	<!--#end-->
+
+<!--END-->
+</template>
+</body>
+</html>

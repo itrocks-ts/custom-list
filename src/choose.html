@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link href="../../action-bar/action.css" rel="stylesheet">
+	<link href="../../ux-core/css/app.css" rel="stylesheet">
+	<link href="../../ux-core/css/article.css" rel="stylesheet">
+	<link href="../../modal/modal.css" rel="stylesheet">
+	<link href="../custom-list.css" rel="stylesheet">
+	<meta charset="utf-8">
+	<script src="../build.js" type="module"></script>
+	<title>Choose a list</title>
+</head>
+<body>
+<!--BEGIN-->
+
+	<!--#modal-->
+	<section class="custom-list choose-list"
+		data-route="{route}" role="dialog" aria-modal="true"
+		aria-labelledby="custom-list-title">
+		<h2 id="custom-list-title">Choose a list</h2>
+		<div class="saved-lists" role="listbox" aria-labelledby="custom-list-title">
+			<!--entries-->
+			<a class="{?defaultClass}" href="app://(href)" target="main" data-target-history="false" role="option"
+				data-key="{key}" aria-selected="{selected}" tabindex="{tabIndex}">
+				<!--icon--><span class="list-icon {kind}" role="img" aria-label="{label}"></span><!--end-->
+				{label}
+			</a>
+			<!--end-->
+		</div>
+		<p class="error" role="alert" hidden></p>
+		<footer><a class="action close" href="about:blank" target="#modal:replace">Cancel</a></footer>
+	</section>
+	<!--#end-->
+
+<!--END-->
+</body>
+</html>

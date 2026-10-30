@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link href="../../action-bar/action.css" rel="stylesheet">
+	<link href="../../delete/css/action.css" rel="stylesheet">
+	<link href="../../modal/modal.css" rel="stylesheet">
+	<link href="../../save/css/action.css" rel="stylesheet">
+	<link href="../../ux-core/css/app.css" rel="stylesheet">
+	<link href="../../ux-core/css/article.css" rel="stylesheet">
+	<link href="../custom-list.css" rel="stylesheet">
+	<meta charset="utf-8">
+	<script src="../build.js" type="module"></script>
+	<title>Save a list</title>
+</head>
+<body>
+<!--BEGIN-->
+
+	<!--#modal-->
+	<section class="custom-list" data-route="{route}" role="dialog" aria-modal="true" aria-labelledby="custom-list-title">
+		<form
+			action="app://(route)/custom-list" method="post" target="#notifications:prepend" data-target-history="false"
+			class="save-list" data-modal-close="manual" data-route="{route}" data-custom-list="{bootstrap}"
+		>
+			<h2 id="custom-list-title">Save a list</h2>
+			<label for="custom-list-name">List name</label>
+			<input disabled id="custom-list-name" maxlength="160" name="name" value="{name}" required>
+
+			<fieldset>
+				<legend>Visibility</legend>
+				<label>
+					<input checked="{?privateChecked}" disabled name="visibility" type="radio" value="private">
+					<span>Accessible by me only</span>
+				</label>
+				<label>
+					<input checked="{?publicChecked}" disabled name="visibility" type="radio" value="public">
+					<span>Accessible by everyone</span>
+				</label>
+				<label>
+					<input checked="{?protectedChecked}" disabled name="visibility" type="radio" value="protected">
+					<span>Accessible by everyone, editable by me only</span>
+				</label>
+			</fieldset>
+
+			<div class="validation">
+				<label class="overwrite" hidden>
+					<input name="overwrite" type="checkbox">
+					<span>Confirm overwriting the list with this name</span>
+				</label>
+				<p class="error" role="alert" hidden></p>
+				<!--validationMessages-->
+				<p class="validation-size" aria-hidden="true">{message}</p>
+				<!--end-->
+			</div>
+			<footer>
+				<ul class="actions">
+					<li class="delete" hidden>
+						<a href="app://(route)/custom-list?operation=delete" target="#modal" data-target-history="false">Delete</a>
+					</li>
+					<li class="close">
+						<a href="about:blank" target="#modal:replace">Cancel</a>
+					</li>
+					<li class="save">
+						<input disabled name="save" type="submit" value="Save">
+					</li>
+				</ul>
+			</footer>
+		</form>
+	</section>
+	<!--#end-->
+
+<!--END-->
+</body>
+</html>
